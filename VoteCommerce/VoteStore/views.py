@@ -13,7 +13,9 @@ def contestant_list(request, category_id):
 def vote(request, contestant_id):
     contestant = get_object_or_404(Contestant, pk=contestant_id)
     if request.method == 'POST':
-        contestant.votes += 1
-        contestant.save()
+        if 'number_of_votes' in request.POST:
+            number_of_votes = int(request.POST['number_of_votes'])
+            contestant.votes += number_of_votes
+            contestant.save()
         return redirect('contestant_list', category_id=contestant.category.id)
     return render(request, 'VoteStore/vote.html', {'contestant': contestant})
