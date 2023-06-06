@@ -23,3 +23,18 @@ class Contestant(models.Model):
 
     def __str__(self):
         return self.name
+    
+class BallotBox(models.Model):
+    session_id = models.CharField(max_length=100, unique=True)
+    contestants = models.ManyToManyField(Contestant, through='Vote')
+
+    def __str__(self):
+        return self.session_id
+
+class Vote(models.Model):
+    ballot_box = models.ForeignKey(BallotBox, on_delete=models.CASCADE)
+    contestant = models.ForeignKey(Contestant, on_delete=models.CASCADE)
+    vote_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.contestant} - {self.vote_count} votes"
