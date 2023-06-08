@@ -30,6 +30,10 @@ class BallotBox(models.Model):
 
     def __str__(self):
         return self.session_id
+    
+    class Meta:
+        verbose_name_plural = "Ballot Boxes"
+    
 
 class Vote(models.Model):
     ballot_box = models.ForeignKey(BallotBox, on_delete=models.CASCADE)
